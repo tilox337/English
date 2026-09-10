@@ -15,7 +15,7 @@
   <header class="masthead">
     <div class="masthead-bar">
       <p class="kicker">Vol. I &nbsp;/&nbsp; No. 1</p>
-      <p class="kicker">A visual grammar of axioms</p>
+      <p class="kicker"><a class="masthead-link" href="#library">Library</a> &nbsp;/&nbsp; A visual grammar of axioms</p>
     </div>
     <h1>Algebraic<br />Structures</h1>
     <p class="deck">
@@ -164,12 +164,40 @@
       <h2 id="def-title" class="section-title">Definitions, one by one</h2>
       <div class="def-grid" id="def-grid"></div>
     </section>
+
+    <section class="library-section" id="library" aria-labelledby="library-title">
+      <p class="section-kicker">The library</p>
+      <h2 id="library-title" class="section-title">Six talks on the shelf</h2>
+      <p class="section-copy">
+        Open a card and read the slides in place. Arrows or the keyboard turn the page.
+        Escape closes the deck. The lattice above is untouched.
+      </p>
+      <div class="library-grid" id="library-grid"></div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <p>From a closed binary operation to a group — three independent axioms, several equivalent packages.</p>
     <p class="footer-meta">Static page · No frameworks · Hover or click to inspect</p>
   </footer>
+
+  <div class="deck-layer" id="deck-layer" hidden>
+    <div class="deck" role="dialog" aria-modal="true" aria-labelledby="deck-title">
+      <div class="deck-bar">
+        <p class="section-kicker" id="deck-kicker">Now showing</p>
+        <h2 class="deck-title" id="deck-title">Deck</h2>
+        <p class="deck-count" id="deck-count">01 / 01</p>
+        <button type="button" class="deck-icon" id="deck-close" aria-label="Close the deck">Close</button>
+      </div>
+      <div class="deck-stage">
+        <button type="button" class="deck-nav" id="deck-prev" aria-label="Previous slide">Prev</button>
+        <figure class="deck-frame">
+          <img id="deck-image" alt="" />
+        </figure>
+        <button type="button" class="deck-nav" id="deck-next" aria-label="Next slide">Next</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js" defer></script>
 </body>

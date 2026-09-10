@@ -80,6 +80,17 @@ body {
   margin: 0;
 }
 
+.masthead-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.masthead-link:hover,
+.masthead-link:focus-visible {
+  color: var(--red);
+  outline: none;
+}
+
 h1 {
   margin: 0 0 0.9rem;
   font-family: var(--serif);
@@ -455,6 +466,195 @@ main {
   font-size: 0.92rem;
 }
 
+.library-section {
+  padding: 3.4rem 0 0.4rem;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.library-card {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: var(--red-border);
+  background: var(--bg);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.library-card:hover,
+.library-card:focus-visible,
+.library-card.is-open {
+  outline: 3px solid var(--red);
+  outline-offset: 5px;
+}
+
+.library-card img {
+  display: block;
+  width: 100%;
+  height: 148px;
+  object-fit: cover;
+  object-position: center top;
+  border-bottom: var(--red-border);
+  background: var(--paper);
+}
+
+.library-card-body {
+  padding: 1.15rem 1.2rem 1.25rem;
+}
+
+.library-card .essay-index {
+  margin: 0 0 0.55rem;
+}
+
+.library-card h3 {
+  margin: 0 0 0.55rem;
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.library-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.deck-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.deck-layer[hidden] {
+  display: none !important;
+}
+
+.deck {
+  width: min(1080px, 100%);
+  max-height: calc(100vh - 2.5rem);
+  overflow: auto;
+  border: var(--red-border);
+  background: var(--bg);
+  padding: 1.15rem 1.2rem 1.3rem;
+}
+
+.deck-bar {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-template-areas:
+    "kicker count close"
+    "title count close";
+  gap: 0.2rem 1rem;
+  align-items: start;
+  margin-bottom: 0.9rem;
+}
+
+.deck-bar .section-kicker {
+  grid-area: kicker;
+  margin: 0;
+}
+
+.deck-title {
+  grid-area: title;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.deck-count {
+  grid-area: count;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.deck-icon,
+.deck-nav {
+  appearance: none;
+  background: var(--bg);
+  color: var(--ink);
+  border: var(--red-border);
+  border-radius: 0;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.deck-icon {
+  grid-area: close;
+  padding: 0.5rem 0.75rem;
+}
+
+.deck-icon:hover,
+.deck-icon:focus-visible,
+.deck-nav:hover,
+.deck-nav:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+  outline: none;
+}
+
+.deck-nav:disabled {
+  opacity: 0.28;
+  cursor: default;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.deck-stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.deck-nav {
+  padding: 0.85rem 0.55rem;
+  min-height: 4.4rem;
+}
+
+.deck-frame {
+  margin: 0;
+  border: var(--red-border);
+  background: var(--bg);
+}
+
+.deck-frame img {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 11rem);
+  object-fit: contain;
+}
+
+body.deck-open {
+  overflow: hidden;
+}
+
 .site-footer {
   max-width: var(--max);
   margin: 0 auto;
@@ -485,6 +685,10 @@ main {
   .lattice-wrap {
     min-height: 0;
   }
+
+  .library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 720px) {
@@ -507,8 +711,20 @@ main {
   }
 
   .essay-grid,
-  .def-grid {
+  .def-grid,
+  .library-grid {
     grid-template-columns: 1fr;
+  }
+
+  .deck-stage {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "frame frame"
+      "prev next";
+  }
+
+  .deck-frame {
+    grid-area: frame;
   }
 
   .masthead-bar {
