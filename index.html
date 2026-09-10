@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Algebraic Structures — From Magma to Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#atlas">Skip to the atlas</a>
+
+  <header class="masthead">
+    <div class="masthead-bar">
+      <p class="kicker">Vol. I &nbsp;/&nbsp; No. 1</p>
+      <p class="kicker">A visual grammar of axioms</p>
+    </div>
+    <h1>Algebraic<br />Structures</h1>
+    <p class="deck">
+      A magma is a set with a binary operation. Add associativity, identity, and invertibility
+      — or divisibility — and the same object becomes a group. Hover or click any structure
+      to see the axioms it already has, and the one property that still stands between it and a group.
+    </p>
+  </header>
+
+  <section class="how-to" aria-label="How to use this page">
+    <p>
+      <span class="how-label">Read</span>
+      Select a node in the lattice. Its card takes a thick red border. Possessed properties
+      light up. The path toward <em>Group</em> is drawn in red.
+    </p>
+  </section>
+
+  <main>
+    <section id="atlas" class="atlas" aria-label="Interactive lattice">
+      <div class="atlas-stage">
+        <p class="section-kicker">The lattice</p>
+        <h2 class="section-title">Eight structures, four properties</h2>
+        <ul class="prop-legend" id="prop-legend" aria-label="Axioms">
+          <li><button type="button" class="prop-chip" data-prop="associativity">Associativity</button></li>
+          <li><button type="button" class="prop-chip" data-prop="identity">Identity</button></li>
+          <li><button type="button" class="prop-chip" data-prop="divisibility">Divisibility</button></li>
+          <li><button type="button" class="prop-chip" data-prop="invertibility">Invertibility</button></li>
+        </ul>
+
+        <div class="lattice-wrap" id="lattice-wrap">
+          <svg class="lattice-edges" id="lattice-edges" aria-hidden="true"></svg>
+          <div class="lattice" id="lattice">
+            <button type="button" class="node" data-id="magma" style="grid-area: magma">Magma</button>
+            <button type="button" class="node" data-id="quasigroup" style="grid-area: quasigroup">Quasigroup</button>
+            <button type="button" class="node" data-id="unital-magma" style="grid-area: unital">Unital magma</button>
+            <button type="button" class="node" data-id="semigroup" style="grid-area: semigroup">Semigroup</button>
+            <button type="button" class="node" data-id="loop" style="grid-area: loop">Loop</button>
+            <button type="button" class="node" data-id="associative-quasigroup" style="grid-area: assocqg">Associative quasigroup</button>
+            <button type="button" class="node" data-id="monoid" style="grid-area: monoid">Monoid</button>
+            <button type="button" class="node node-group" data-id="group" style="grid-area: group">Group</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="inspector" id="inspector" aria-live="polite">
+        <p class="section-kicker" id="inspector-kicker">Now reading</p>
+        <h2 class="inspector-title" id="inspector-title">Choose a structure</h2>
+        <p class="inspector-lede" id="inspector-lede">
+          The diagram is a map, not a taxonomy of mutually exclusive kingdoms. Every group is
+          a monoid, a loop, and an associative quasigroup. Click Magma to start at the top.
+        </p>
+        <div class="inspector-block">
+          <h3>Properties it possesses</h3>
+          <ul class="possessed" id="possessed-list">
+            <li class="muted">A binary operation, and nothing more — until you choose.</li>
+          </ul>
+        </div>
+        <div class="inspector-block callout" id="group-path">
+          <h3>Connection to Group</h3>
+          <p id="group-path-text">
+            A group is what you obtain when associativity, identity, and invertibility
+            (equivalently, divisibility) hold together.
+          </p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="matrix-section" aria-labelledby="matrix-title">
+      <p class="section-kicker">Axiom matrix</p>
+      <h2 id="matrix-title" class="section-title">What each name actually requires</h2>
+      <p class="section-copy">
+        Invertibility is stated for monoids (every element has a two-sided inverse).
+        Divisibility is stated for magmas (left and right multiplication are bijective).
+        In a group the two conditions coincide.
+      </p>
+      <div class="matrix-scroller">
+        <table class="axiom-matrix" id="axiom-matrix">
+          <thead>
+            <tr>
+              <th scope="col">Structure</th>
+              <th scope="col">Associativity</th>
+              <th scope="col">Identity</th>
+              <th scope="col">Divisibility</th>
+              <th scope="col">Invertibility</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="essays" aria-labelledby="prop-essays-title">
+      <p class="section-kicker">The four arrows</p>
+      <h2 id="prop-essays-title" class="section-title">Properties that change the name</h2>
+      <div class="essay-grid">
+        <article class="essay-card" id="essay-associativity" data-prop="associativity">
+          <p class="essay-index">01</p>
+          <h3>Associativity</h3>
+          <p>
+            The operation may be composed without regard to parentheses:
+            <span class="formula">(a · b) · c = a · (b · c)</span>
+            for all elements a, b, c. Associativity turns a magma into a semigroup,
+            a quasigroup into an associative quasigroup, a unital magma into a monoid,
+            and a loop into a group.
+          </p>
+        </article>
+        <article class="essay-card" id="essay-identity" data-prop="identity">
+          <p class="essay-index">02</p>
+          <h3>Identity</h3>
+          <p>
+            There exists an element e such that
+            <span class="formula">e · a = a · e = a</span>
+            for every a. Identity turns a magma into a unital magma, a semigroup into a monoid,
+            a quasigroup into a loop, and an associative quasigroup into a group.
+          </p>
+        </article>
+        <article class="essay-card" id="essay-divisibility" data-prop="divisibility">
+          <p class="essay-index">03</p>
+          <h3>Divisibility</h3>
+          <p>
+            Equations
+            <span class="formula">a · x = b</span> and
+            <span class="formula">y · a = b</span>
+            have unique solutions x, y for every pair a, b. Equivalently, every left and right
+            multiplication map is bijective — the Latin-square property. Divisibility turns a
+            magma into a quasigroup, a unital magma into a loop, and a semigroup into an
+            associative quasigroup.
+          </p>
+        </article>
+        <article class="essay-card" id="essay-invertibility" data-prop="invertibility">
+          <p class="essay-index">04</p>
+          <h3>Invertibility</h3>
+          <p>
+            Once an identity e is present, every element a is asked to have a two-sided inverse
+            a<sup>−1</sup> with
+            <span class="formula">a · a<sup>−1</sup> = a<sup>−1</sup> · a = e</span>.
+            Invertibility is the arrow from monoid to group. In that setting it supplies unique
+            divisibility as well.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="definitions" aria-labelledby="def-title">
+      <p class="section-kicker">Field notes</p>
+      <h2 id="def-title" class="section-title">Definitions, one by one</h2>
+      <div class="def-grid" id="def-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>From a closed binary operation to a group — three independent axioms, several equivalent packages.</p>
+    <p class="footer-meta">Static page · No frameworks · Hover or click to inspect</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
