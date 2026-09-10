@@ -91,6 +91,67 @@
 
   const PROP_ORDER = ["associativity", "identity", "divisibility", "invertibility"];
 
+  const LIBRARY = [
+    {
+      id: "abstract-algebra",
+      title: "Abstract algebra",
+      index: "01",
+      blurb: "Groups, rings, and fields on one sheet: substructures, morphisms, ideals.",
+      slides: ["library/abstract-algebra/01.png"],
+    },
+    {
+      id: "associative-algebra",
+      title: "Associative algebra",
+      index: "02",
+      blurb: "A vector space that is also a ring: matrices, operators, the unital case.",
+      slides: ["library/associative-algebra/01.png"],
+    },
+    {
+      id: "boolean-algebra",
+      title: "Boolean algebra",
+      index: "03",
+      blurb: "True and false as an algebra: gates, identities, De Morgan, circuits.",
+      slides: ["library/boolean-algebra/01.png"],
+    },
+    {
+      id: "lattice",
+      title: "Lattice",
+      index: "04",
+      blurb: "Order with meet and join. Seven slides from the Hasse diagram to use.",
+      slides: [
+        "library/lattice/01.png",
+        "library/lattice/02.png",
+        "library/lattice/03.png",
+        "library/lattice/04.png",
+        "library/lattice/05.png",
+        "library/lattice/06.png",
+        "library/lattice/07.png",
+      ],
+    },
+    {
+      id: "lie-algebra",
+      title: "Lie algebra",
+      index: "05",
+      blurb: "The Lie bracket, the three axioms, and why physicists keep the notation.",
+      slides: ["library/lie-algebra/01.png"],
+    },
+    {
+      id: "set-theory",
+      title: "Set theory",
+      index: "06",
+      blurb: "A simple guide by Dima Vasilevich: elements, unions, De Morgan, seven slides.",
+      slides: [
+        "library/set-theory/01.png",
+        "library/set-theory/02.png",
+        "library/set-theory/03.png",
+        "library/set-theory/04.png",
+        "library/set-theory/05.png",
+        "library/set-theory/06.png",
+        "library/set-theory/07.png",
+      ],
+    },
+  ];
+
   const wrap = document.getElementById("lattice-wrap");
   const svg = document.getElementById("lattice-edges");
   const inspectorTitle = document.getElementById("inspector-title");
@@ -388,6 +449,102 @@
       .join("");
   }
 
+  function bindLibrary() {
+    const grid = document.getElementById("library-grid");
+    const layer = document.getElementById("deck-layer");
+    const titleEl = document.getElementById("deck-title");
+    const countEl = document.getElementById("deck-count");
+    const imageEl = document.getElementById("deck-image");
+    const prevBtn = document.getElementById("deck-prev");
+    const nextBtn = document.getElementById("deck-next");
+    const closeBtn = document.getElementById("deck-close");
+    if (!grid || !layer) return;
+
+    let deck = null;
+    let page = 0;
+    let lastFocus = null;
+
+    grid.innerHTML = LIBRARY.map(
+      (item) => `
+      <button type="button" class="library-card" data-id="${item.id}">
+        <img src="${item.slides[0]}" alt="" loading="lazy" />
+        <div class="library-card-body">
+          <p class="essay-index">${item.index} · ${String(item.slides.length).padStart(2, "0")} slide${item.slides.length === 1 ? "" : "s"}</p>
+          <h3>${item.title}</h3>
+          <p>${item.blurb}</p>
+        </div>
+      </button>`
+    ).join("");
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function renderDeck() {
+      if (!deck) return;
+      imageEl.src = deck.slides[page];
+      imageEl.alt = `${deck.title}, slide ${page + 1} of ${deck.slides.length}`;
+      titleEl.textContent = deck.title;
+      countEl.textContent = `${pad(page + 1)} / ${pad(deck.slides.length)}`;
+      prevBtn.disabled = page <= 0;
+      nextBtn.disabled = page >= deck.slides.length - 1;
+      document.querySelectorAll(".library-card").forEach((card) => {
+        card.classList.toggle("is-open", card.dataset.id === deck.id);
+      });
+      const upcoming = deck.slides[page + 1];
+      if (upcoming) {
+        const preload = new Image();
+        preload.src = upcoming;
+      }
+    }
+
+    function openDeck(id) {
+      deck = LIBRARY.find((item) => item.id === id) || null;
+      if (!deck) return;
+      page = 0;
+      lastFocus = document.activeElement;
+      layer.hidden = false;
+      document.body.classList.add("deck-open");
+      renderDeck();
+      closeBtn.focus();
+    }
+
+    function closeDeck() {
+      layer.hidden = true;
+      document.body.classList.remove("deck-open");
+      document.querySelectorAll(".library-card").forEach((card) => {
+        card.classList.remove("is-open");
+      });
+      deck = null;
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
+    function step(delta) {
+      if (!deck) return;
+      const next = page + delta;
+      if (next < 0 || next >= deck.slides.length) return;
+      page = next;
+      renderDeck();
+    }
+
+    grid.addEventListener("click", (event) => {
+      const card = event.target.closest(".library-card");
+      if (card) openDeck(card.dataset.id);
+    });
+    prevBtn.addEventListener("click", () => step(-1));
+    nextBtn.addEventListener("click", () => step(1));
+    closeBtn.addEventListener("click", closeDeck);
+    layer.addEventListener("click", (event) => {
+      if (event.target === layer) closeDeck();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (!deck) return;
+      if (event.key === "Escape") closeDeck();
+      if (event.key === "ArrowLeft") step(-1);
+      if (event.key === "ArrowRight") step(1);
+    });
+  }
+
   function bind() {
     document.querySelectorAll(".node").forEach((node) => {
       const id = node.dataset.id;
@@ -450,6 +607,7 @@
     });
 
     window.addEventListener("resize", debounce(drawGraph, 80));
+    bindLibrary();
   }
 
   function debounce(fn, wait) {
